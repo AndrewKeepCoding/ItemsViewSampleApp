@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="ItemsViewSampleApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ItemsViewSampleApp"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Grid
+        Margin="5"
+        ColumnDefinitions="*,*"
+        ColumnSpacing="5"
+        RowDefinitions="Auto,Auto,*">
+
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Orientation="Horizontal"
+            Spacing="5">
+            <NumberBox
+                x:Name="ItemCountNumberBox"
+                MinWidth="150"
+                Value="10000" />
+            <Button
+                Command="{x:Bind ViewModel.ChangeItemsCountCommand}"
+                CommandParameter="{x:Bind (x:Int32)ItemCountNumberBox.Value, Mode=OneWay}"
+                Content="Apply" />
+        </StackPanel>
+
+        <!--  ListView  -->
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            FontSize="15"
+            FontWeight="Bold"
+            Foreground="LightPink"
+            Text="ListView" />
+        <Border
+            Grid.Row="2"
+            Grid.Column="0"
+            BorderBrush="LightPink"
+            BorderThickness="1">
+            <ListView
+                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                SelectionMode="Multiple">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:Item">
+                        <TextBlock Text="{x:Bind Content}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
+
+        <!--  ItemsRepeater + ScrollViewer  -->
+        <!--<TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            FontSize="15"
+            FontWeight="Bold"
+            Foreground="LightGreen"
+            Text="ItemsRepeater + ScrollViewer" />
+        <Border
+            Grid.Row="2"
+            Grid.Column="1"
+            BorderBrush="LightGreen"
+            BorderThickness="1">
+            <ScrollViewer>
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" />
+            </ScrollViewer>
+        </Border>-->
+
+        <!--  ItemsView  -->
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            FontSize="15"
+            FontWeight="Bold"
+            Foreground="LightBlue"
+            Text="ItemsView" />
+        <Border
+            Grid.Row="2"
+            Grid.Column="1"
+            BorderBrush="LightBlue"
+            BorderThickness="1">
+            <ItemsView
+                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                SelectionMode="Multiple">
+                <ItemsView.Resources>
+                    <HorizontalAlignment x:Key="ItemContainerCheckboxHorizontalAlignment">Left</HorizontalAlignment>
+                    <VerticalAlignment x:Key="ItemContainerCheckboxVerticalAlignment">Center</VerticalAlignment>
+                    <Thickness x:Key="ItemContainerCheckBoxMargin">10,-2</Thickness>
+                </ItemsView.Resources>
+                <ItemsView.Layout>
+                    <UniformGridLayout MinItemWidth="150" />
+                </ItemsView.Layout>
+                <ItemsView.ItemTemplate>
+                    <DataTemplate x:DataType="local:Item">
+                        <ItemContainer Margin="0,0,0,1">
+                            <Grid Padding="40,10,10,10">
+                                <TextBlock Text="{x:Bind Content}" />
+                            </Grid>
+                        </ItemContainer>
+                    </DataTemplate>
+                </ItemsView.ItemTemplate>
+            </ItemsView>
+        </Border>
+
+    </Grid>
+</Page>
